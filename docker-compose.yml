@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # node-app:
+  #   build: .
+  #   image: node-app
+  #   environment:
+  #     - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
+  #   ports:
+  #     - '8085:8085'
+  #   depends_on:
+  #     - mongodb
+  #   volumes:
+  #     - .:/src
+  #   networks:
+  #     - node-network
+
+  mongodb_container:
+    container_name: payment-wallet-db
+    image: mongo
+    ports:
+      - '27017:27017'
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: mongoadminpassword
+    volumes:
+      - ./.docker/tmp/mongo:/var/lib/mongodb/data

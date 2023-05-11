@@ -1,0 +1,45 @@
+scalar Date
+
+type Query {
+	account(id: ID!): Account
+	balance: Float!
+	transactions: [Transaction]
+}
+
+type Mutation {
+	signup(input: CreateAccountInput!): Account!
+	login(email: String!, password: String!): AuthResponse!
+	transfer(email: String!, amount: Float!): Transaction
+}
+
+input CreateAccountInput {
+	name: String!
+	email: String!
+	password: String!
+}
+
+type AuthResponse {
+	token: String!
+	account: Account!
+}
+
+type Account {
+	id: ID!
+	name: String!
+	email: String!
+}
+enum TransactionStatus {
+	PENDING
+	SUCCESS
+	FAILED
+}
+
+type Transaction {
+	id: ID!
+	sender: Account!
+	recipient: Account!
+	amount: Float!
+	status: TransactionStatus!
+	reason: String!
+	timestamp: Date!
+}
