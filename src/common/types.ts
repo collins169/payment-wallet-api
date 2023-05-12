@@ -8,3 +8,8 @@ export const HttpStatus = {
 } as const;
 
 export type StatusCode = (typeof HttpStatus)[keyof typeof HttpStatus];
+
+export type KafkaProducerMessage = {
+	key?: string,
+	value: string
+}

@@ -8,7 +8,7 @@ export enum TransactionStatus {
 	Success = 'SUCCESS',
 }
 
-interface ITransaction extends mongoose.Document {
+export interface ITransaction extends mongoose.Document {
 	id: string;
 	sender: IAccount;
 	recipient: IAccount;

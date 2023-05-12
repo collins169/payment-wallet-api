@@ -5,6 +5,8 @@ import { ErrorHandler } from '../../common/helpers/errorHandler';
 import { startSession } from 'mongoose';
 import { logger } from '../../common/helpers/logger';
 import { HttpStatus } from '../../common/types';
+import { sendMessageToTopic } from "../../common/service/kafka.service";
+import { IAccount } from '../../account/types';
 
 export const getTransactionHistory = async (id: string) => {
 	const account = await Account.findOne({
@@ -151,11 +153,25 @@ export const transferFunds = async ({
 		throw new ErrorHandler('Insufficient balance', HttpStatus.BAD_REQUEST);
 	}
 
-	const processTransction = await processTransaction({
+	const processedTransction = await processTransaction({
 		senderEmail,
 		recipientEmail,
 		amount,
 		transactionId: id,
 	});
-	return processTransction;
+
+	const transResponse = {
+		id,
+		sender: processedTransction?.sender as IAccount,
+		recipient: processedTransction?.recipient as IAccount,
+		amount,
+		status: processedTransction?.status as TransactionStatus,
+		reason: processedTransction?.reason || '',
+		timestamp: processedTransction?.timestamp || '',
+	};
+
+	// Publishing transaction to transactions topic
+	await sendMessageToTopic("transactions", transResponse);
+
+	return transResponse;
 };

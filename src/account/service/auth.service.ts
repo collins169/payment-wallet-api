@@ -52,10 +52,10 @@ export const authenticate = async (
 	//Generate jwt token
 	const token = sign(
 		{ id: account.id },
-		process.env.SECRET_KEY || 'payment-wallet-api',
+		process.env.JWT_SECRET || "payment-wallet-api",
 		{
-			algorithm: 'HS256',
-			expiresIn: '1d',
+			algorithm: "HS256",
+			expiresIn: "1d",
 			subject: account.id,
 		}
 	);
