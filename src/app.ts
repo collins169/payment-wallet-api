@@ -1,16 +1,10 @@
 import "dotenv/config";
-import { connect as DatabaseConnection } from "mongoose";
+import { connection } from "./database/database";
 import { startServer } from "./apollo.server";
 import { logger } from "./common/helpers/logger";
 import { consumeMessageFromTopic } from "./common/service/kafka.service";
 
-DatabaseConnection(String(process.env.DATABASE_URL), {
-	dbName: String(process.env.DATABASE_NAME),
-	pass: String(process.env.DATABASE_PASS),
-	user: String(process.env.DATABASE_USER),
-	autoIndex: true,
-	maxPoolSize: 10,
-}).then(
+connection.then(
 	async () => {
 		logger.info("connection to database successfully established");
 

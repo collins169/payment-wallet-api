@@ -20,7 +20,7 @@ class KafkaClient {
 		const sasl =
 			username && password
 				? { username, password, mechanism: "plain" }
-				: { mechanism: "plain" };
+				: null;
 		const ssl = !!sasl;
 
 		// This creates a client instance that is configured to connect to the Kafka broker provided by
@@ -28,7 +28,7 @@ class KafkaClient {
 		this.kafka = new Kafka({
 			clientId: clientId,
 			brokers: [brokerUrl || ""],
-			// logLevel: logLevel.INFO,
+			logLevel: logLevel.INFO,
 			ssl,
 			sasl: sasl as SASLOptions,
 			connectionTimeout: Number(sessionTimeout),

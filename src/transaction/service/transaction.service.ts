@@ -30,7 +30,7 @@ export const getTransactionHistory = async (id: string) => {
 	return transactions;
 };
 
-export const  validateTransaction = async ({
+const  validateTransaction = async ({
 	senderEmail,
 	recipientEmail,
 	amount,
@@ -75,7 +75,7 @@ export const  validateTransaction = async ({
 	};
 };
 
-export const processTransaction = async ({
+const processTransaction = async ({
 	transactionId,
 	senderEmail,
 	recipientEmail,

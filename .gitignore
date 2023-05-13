@@ -4,6 +4,7 @@
 /junit
 /.docker
 .docker
+/coverage
 
 # Logs
 logs

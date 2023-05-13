@@ -1,21 +1,29 @@
 version: '3.8'
 
 services:
-  # node-app:
-  #   build: .
-  #   image: node-app
-  #   environment:
-  #     - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
-  #   ports:
-  #     - '8085:8085'
-  #   depends_on:
-  #     - mongodb
-  #   volumes:
-  #     - .:/src
-  #   networks:
-  #     - node-network
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    volumes:
+      - ./.docker/tmp/zookeeper:/var/lib/zookeeper/data
 
-  mongodb_container:
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "transactions"
+    volumes:
+      - ./.docker/tmp/kafka:/var/lib/kafka/data
+
+  payment-wallet-db:
     container_name: payment-wallet-db
     image: mongo
     ports:
@@ -26,3 +34,27 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mongoadminpassword
     volumes:
       - ./.docker/tmp/mongo:/var/lib/mongodb/data
+  payments-wallet-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: payments-wallet-api
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    depends_on:
+      - zookeeper
+      - kafka
+      - payment-wallet-db
+    environment:
+      NODE_ENE: development
+      DATABASE_NAME: payment-wallet-api
+      DATABASE_PASS: mongoadminpassword
+      DATABASE_USER: mongoadmin
+      DATABASE_URL: mongodb://payment-wallet-db:27017
+      JWT_SECRET: payment-wallet-api-secret
+      KAFKA_BROKER_URL: kafka:9092
+      KAFKA_CLIENT_ID: payment-wallet-api
+      KAFKA_GROUP_ID: payment-wallet-api-group
+      KAFKA_SESSION_TIMEOUT_MS: 45000
+      KAFKA_CONSUMER_SESSION_TIMEOUT_MS: 30000

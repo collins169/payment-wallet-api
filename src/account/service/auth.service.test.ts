@@ -34,7 +34,7 @@ describe("auth service", () => {
 	>;
 
 	beforeEach(() => {
-		process.env.SECRET_KEY = "payment-wallet-api-test";
+		process.env.JWT_SECRET = "payment-wallet-api-test";
 	});
 
 	afterAll(() => {
