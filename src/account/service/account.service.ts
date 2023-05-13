@@ -8,7 +8,7 @@ export const getAccountById = async (id: string) => {
 	logger.info(`getting account by id ${id}`);
 	const account = await Account.findOne({
 		id,
-	}).exec();
+	});
 
 	if (isEmpty(account)) {
 		throw new ErrorHandler('Account not found', HttpStatus.NOT_FOUND);

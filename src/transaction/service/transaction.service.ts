@@ -12,6 +12,11 @@ export const getTransactionHistory = async (id: string) => {
 	const account = await Account.findOne({
 		id,
 	});
+	
+	if (isEmpty(account)) {
+		throw new ErrorHandler("Account not found", HttpStatus.NOT_FOUND);
+	}
+
 	const transactions = await Transaction.find({
 		$or: [
 			{
@@ -25,7 +30,7 @@ export const getTransactionHistory = async (id: string) => {
 	return transactions;
 };
 
-const validateTransaction = async ({
+export const  validateTransaction = async ({
 	senderEmail,
 	recipientEmail,
 	amount,
@@ -70,7 +75,7 @@ const validateTransaction = async ({
 	};
 };
 
-const processTransaction = async ({
+export const processTransaction = async ({
 	transactionId,
 	senderEmail,
 	recipientEmail,

@@ -28,7 +28,7 @@ class KafkaClient {
 		this.kafka = new Kafka({
 			clientId: clientId,
 			brokers: [brokerUrl || ""],
-			logLevel: logLevel.INFO,
+			// logLevel: logLevel.INFO,
 			ssl,
 			sasl: sasl as SASLOptions,
 			connectionTimeout: Number(sessionTimeout),
@@ -52,6 +52,7 @@ class KafkaClient {
 	}
 
 	async createNotExistingTopic(topic: string): Promise<void> {
+		await this.connect();
 		const admin = this.kafka.admin();
 		const topics = await admin.listTopics();
 		const topicExists = topics.find((name) => name === topic);
@@ -66,6 +67,7 @@ class KafkaClient {
 					},
 				],
 			});
+			await this.disconnect();
 		}
 	}
 
@@ -73,14 +75,17 @@ class KafkaClient {
 		topic: string,
 		messages: KafkaProducerMessage[]
 	): Promise<void> {
+		await this.connect();
 		await this.producer.send({
 			topic: topic,
 			messages: messages,
 		});
+		await this.disconnect();
 	}
 
 	async consume(topic: string): Promise<string> {
 		return new Promise(async (resolve) => {
+			await this.connect();
 			await this.consumer.subscribe({ topic: topic, fromBeginning: true });
 			await this.consumer.run({
 				eachMessage: async ({ topic, partition, message }) => {
@@ -91,6 +96,7 @@ class KafkaClient {
 					return resolve(value);
 				},
 			});
+			await this.disconnect();
 		});
 	}
 }

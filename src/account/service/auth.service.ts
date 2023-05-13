@@ -78,7 +78,7 @@ export const validateToken = async (token: string) => {
 		token,
 		process.env.SECRET_KEY || 'payment-wallet-api'
 	) as JwtPayload;
-
+	
 	if (isEmpty(accountId)) {
 		return {};
 	}
