@@ -1,5 +1,5 @@
-import "dotenv/config";
-import { connect } from "mongoose";
+import 'dotenv/config';
+import { connect } from 'mongoose';
 
 const { DATABASE_URL, DATABASE_NAME, DATABASE_PASS, DATABASE_USER } =
 	process.env;

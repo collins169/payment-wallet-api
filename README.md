@@ -16,6 +16,7 @@ This is a backend API service for a payments wallet. The API service allows user
 - TypeScript for the code
 - Kafka for messaging between services
 
+
 ## Requirements
 
 1. Implement a GraphQL schema that allows users to:
@@ -39,6 +40,10 @@ This is a backend API service for a payments wallet. The API service allows user
 5. Implement error handling and validation for all user input.
 6. Use the Confluent Cloud cluster to create a topic to store transaction events and to produce transaction events.
 7. Bonus (not mandatory): Implement a consumer that listens to transaction events and logs them to the console.
+
+## Project Structure
+
+Click [here](https://www.loom.com/share/16b8332b24fc4ec1ada1500eadf2d104) to watch a video explaining the project structure.
 
 ## How to Run
 
@@ -79,6 +84,16 @@ This is a backend API service for a payments wallet. The API service allows user
    ```
 
 The API service should now be running on `http://localhost:4000/`. You can use a GraphQL client like [GraphiQL](https://github.com/graphql/graphiql) to interact with the API or launch the URL in a browser.
+
+## Sample accounts
+
+#### Alice Manny
+- Email: alice@test.com
+- Password: testpassword
+
+#### Bob Joe
+- Email: bob@test.com
+- Password: testpassword
 
 ## List of Endpoints
 

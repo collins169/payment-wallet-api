@@ -1,12 +1,12 @@
-import { compareSync, genSaltSync, hashSync } from "bcrypt";
-import { JwtPayload, sign, verify } from "jsonwebtoken";
-import { isEmpty } from "lodash";
-import { ErrorHandler } from "../../common/helpers/errorHandler";
-import { HttpStatus } from "../../common/types";
-import { AuthResponse, CreateAccountInput } from "../../common/types/types";
-import Account from "../entities/account.entity";
-import { getAccountById } from "./account.service";
-import { logger } from "../../common/helpers/logger";
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
+import { isEmpty } from 'lodash';
+import { ErrorHandler } from '../../common/helpers/errorHandler';
+import { HttpStatus } from '../../common/types';
+import { AuthResponse, CreateAccountInput } from '../../common/types/types';
+import Account from '../entities/account.entity';
+import { getAccountById } from './account.service';
+import { logger } from '../../common/helpers/logger';
 
 export const registerAccount = async (input: CreateAccountInput) => {
 	const existingAccount = await Account.findOne({
@@ -14,7 +14,7 @@ export const registerAccount = async (input: CreateAccountInput) => {
 	});
 	if (!isEmpty(existingAccount)) {
 		throw new ErrorHandler(
-			"Account with email already exist",
+			'Account with email already exist',
 			HttpStatus.CONFLICT
 		);
 	}
@@ -38,7 +38,7 @@ export const authenticate = async (
 		email,
 	});
 
-	const errorMessage = "Invalid username/password";
+	const errorMessage = 'Invalid username/password';
 	if (isEmpty(account)) {
 		throw new ErrorHandler(errorMessage, HttpStatus.UNAUTHORIZED);
 	}
@@ -53,10 +53,10 @@ export const authenticate = async (
 	//Generate jwt token
 	const token = sign(
 		{ id: account.id },
-		process.env.JWT_SECRET || "payment-wallet-api",
+		process.env.JWT_SECRET || 'payment-wallet-api',
 		{
-			algorithm: "HS256",
-			expiresIn: "1d",
+			algorithm: 'HS256',
+			expiresIn: '1d',
 			subject: account.id,
 		}
 	);
@@ -78,7 +78,7 @@ export const validateToken = async (token: string) => {
 		}
 		const { sub: accountId } = verify(
 			token,
-			process.env.JWT_SECRET || "payment-wallet-api"
+			process.env.JWT_SECRET || 'payment-wallet-api'
 		) as JwtPayload;
 
 		if (isEmpty(accountId)) {

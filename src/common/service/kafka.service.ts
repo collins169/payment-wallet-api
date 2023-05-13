@@ -1,5 +1,5 @@
-import { logger } from "../helpers/logger";
-import KafkaClient from "../messaging/kafka.client";
+import { logger } from '../helpers/logger';
+import KafkaClient from '../messaging/kafka.client';
 
 export const sendMessageToTopic = async (
 	topic: string,

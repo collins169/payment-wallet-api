@@ -1,5 +1,5 @@
-import { Consumer, Kafka, Producer, SASLOptions, logLevel } from "kafkajs";
-import { KafkaProducerMessage } from "../types";
+import { Consumer, Kafka, Producer, SASLOptions, logLevel } from 'kafkajs';
+import { KafkaProducerMessage } from '../types';
 
 class KafkaClient {
 	private kafka: Kafka;
@@ -19,7 +19,7 @@ class KafkaClient {
 
 		const sasl =
 			username && password
-				? { username, password, mechanism: "plain" }
+				? { username, password, mechanism: 'plain' }
 				: null;
 		const ssl = !!sasl;
 
@@ -27,7 +27,7 @@ class KafkaClient {
 		// the environment variable KAFKA_BOOTSTRAP_SERVER
 		this.kafka = new Kafka({
 			clientId: clientId,
-			brokers: [brokerUrl || ""],
+			brokers: [brokerUrl || ''],
 			logLevel: logLevel.INFO,
 			ssl,
 			sasl: sasl as SASLOptions,
@@ -36,7 +36,7 @@ class KafkaClient {
 
 		this.producer = this.kafka.producer();
 		this.consumer = this.kafka.consumer({
-			groupId: groupId || "",
+			groupId: groupId || '',
 			sessionTimeout: Number(consumerSessionTimeout),
 		});
 	}
@@ -63,7 +63,7 @@ class KafkaClient {
 						topic,
 						numPartitions: 1,
 						replicationFactor: 3,
-						configEntries: [{ name: "cleanup.policy", value: "delete" }],
+						configEntries: [{ name: 'cleanup.policy', value: 'delete' }],
 					},
 				],
 			});
@@ -90,7 +90,7 @@ class KafkaClient {
 			await this.consumer.run({
 				eachMessage: async ({ topic, partition, message }) => {
 					if (!message?.value) {
-						return resolve("");
+						return resolve('');
 					}
 					const value = message?.value.toString();
 					return resolve(value);

@@ -5,7 +5,7 @@ import { ErrorHandler } from '../../common/helpers/errorHandler';
 import { startSession } from 'mongoose';
 import { logger } from '../../common/helpers/logger';
 import { HttpStatus } from '../../common/types';
-import { sendMessageToTopic } from "../../common/service/kafka.service";
+import { sendMessageToTopic } from '../../common/service/kafka.service';
 import { IAccount } from '../../account/types';
 
 export const getTransactionHistory = async (id: string) => {
@@ -14,7 +14,7 @@ export const getTransactionHistory = async (id: string) => {
 	});
 	
 	if (isEmpty(account)) {
-		throw new ErrorHandler("Account not found", HttpStatus.NOT_FOUND);
+		throw new ErrorHandler('Account not found', HttpStatus.NOT_FOUND);
 	}
 
 	const transactions = await Transaction.find({
@@ -176,7 +176,7 @@ export const transferFunds = async ({
 	};
 
 	// Publishing transaction to transactions topic
-	await sendMessageToTopic("transactions", transResponse);
+	await sendMessageToTopic('transactions', transResponse);
 
 	return transResponse;
 };
