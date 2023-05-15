@@ -43,7 +43,7 @@ This is a backend API service for a payments wallet. The API service allows user
 
 ## Project Structure
 
-Click [here](https://www.loom.com/share/16b8332b24fc4ec1ada1500eadf2d104) to watch a video explaining the project structure.
+Click [here](https://www.loom.com/share/cd70b906bc3f453ba16174d087b9ec90) to watch a video explaining the project structure.
 
 ## How to Run
 
