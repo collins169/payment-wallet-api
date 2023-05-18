@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { IAccount } from '../../account/types';
 
 export enum TransactionStatus {
@@ -25,9 +25,11 @@ const transactionSchema = new Schema({
 	},
 	sender: {
 		type: Schema.Types.ObjectId,
+		ref: 'Account',
 	},
 	recipient: {
 		type: Schema.Types.ObjectId,
+		ref: 'Account',
 	},
 	amount: {
 		type: Number,
